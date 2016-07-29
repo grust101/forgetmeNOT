@@ -5,20 +5,26 @@ get '/' do
 end
 
 get '/new' do
-  erb :'new'
+    if request.xhr?
+
+       erb :'/new', layout: false
+   else
+      erb :'new'
+  end
+
 end
 
 
 post '/' do
-	
-	@number_to_send = params[:reminder][:phone_number]
-	@numbers_to_send_to = @number_to_send.split(" ")
-	@message_body = params[:reminder][:message]
-	p @message_body
 
-	MessageService.send_message(@numbers_to_send_to, @message_body)
+       @number_to_send = params[:reminder][:phone_number]
+       @numbers_to_send_to = @number_to_send.split(" ")
+       @message_body = params[:reminder][:message]
+       p @message_body
 
-	redirect '/show'
+       MessageService.send_message(@numbers_to_send_to, @message_body)
+
+       redirect '/show'
 
 end
 
@@ -27,7 +33,7 @@ get '/show' do
 end
 
 
- class MessageService
+class MessageService
     def initialize 
     end
 
@@ -36,9 +42,9 @@ end
         numbers_to_send.each do |number_to_send| 
 
     # put your own credentials here
-        account_sid = ENV["TWILIO_ACCOUNT_SID"]
-        auth_token = ENV["TWILIO_AUTH_TOKEN"]
-        auth_number = ENV["TWILIO_NUMBER"]
+    account_sid = ENV["TWILIO_ACCOUNT_SID"]
+    auth_token = ENV["TWILIO_AUTH_TOKEN"]
+    auth_number = ENV["TWILIO_NUMBER"]
         # set up a client to talk to the Twilio REST API
         client = Twilio::REST::Client.new account_sid, auth_token
 
@@ -48,8 +54,8 @@ end
             :to => number_to_send,
             :body => message_body,
             })
-        end
-
     end
+
+end
 
 end

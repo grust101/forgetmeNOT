@@ -1,29 +1,32 @@
 $(document).ready(function() {
-  // This is called after the document has loaded in its entirety
-  // This guarantees that any elements we bind to will exist on the page
-  // when we try to bind to them
-  getLoginForm();
-  getSignUpForm();
-  // See: http://docs.jquery.com/Tutorials:Introducing_$(document).ready()
+//   // This is called after the document has loaded in its entirety
+//   // This guarantees that any elements we bind to will exist on the page
+//   // when we try to bind to them
+  getReminderForm();
+//   // getSignUpForm();
+//   // See: http://docs.jquery.com/Tutorials:Introducing_$(document).ready()
 });
 
-function getLoginForm(){
-	console.log("inside login function")
-	$('#login-button').on('click', function(event){
+function getReminderForm(){
+	console.log("inside reminder function")
+	$('.reminder-button').on('click', function(event){
 		event.preventDefault();
 
 		console.log('event', event)
 
 
 		$.ajax({
-			url: '/sessions/login',
+			url: '/new',
 			method: 'GET'
 		})
 
 		.done(function(serverData){
 			console.log("SUCCESS")
-			$('#login-button').hide();
-			$('body').append(serverData);
+			$('.reminder-button').hide();
+			// $('.intro-text').hide();
+			$('.append-area').append(serverData);
+			sendReminder();
+
 		})
 		.fail(function(serverData){
 			console.log('failing');
@@ -31,26 +34,26 @@ function getLoginForm(){
 	})
 }
 
-function getSignUpForm(){
-	console.log("inside login function")
-	$('#sign-up-button').on('click', function(event){
-		event.preventDefault();
+// function sendReminder(){
+// 	console.log("inside send function")
+// 	$('.send').on('click', function(event){
+// 		event.preventDefault();
 
-		console.log('event', event)
+// 		console.log('event', event)
 
 
-		$.ajax({
-			url: '/users/new',
-			method: 'GET'
-		})
+// 		$.ajax({
+// 			url: '/',
+// 			method: 'GET'
+// 		})
 
-		.done(function(serverData){
-			console.log("SUCCESS")
-			$('#sign-up-button').hide();
-			$('body').append(serverData);
-		})
-		.fail(function(serverData){
-			console.log('failing');
-		})
-	})
-}
+// 		.done(function(serverData){
+// 			console.log("SUCCESS")
+// 			$('.append-area').hide();
+// 			// $('body').append(serverData);
+// 		})
+// 		.fail(function(serverData){
+// 			console.log('failing');
+// 		})
+// 	})
+// }
